@@ -109,7 +109,7 @@ SecureCodeView/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/SecureCodeView.git
+git clone https://https://github.com/Pardeep12kumar/Secure_code_review.git
 
 cd SecureCodeView
 ```
