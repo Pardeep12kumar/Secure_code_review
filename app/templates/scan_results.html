@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}
+Security Scan Report
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Security Scan Report
+</h2>
+
+<div class="card shadow mb-4">
+
+    <div class="card-body">
+
+        <h5>
+
+            File:
+
+            <strong>
+                {{ uploaded_file.original_filename }}
+            </strong>
+
+        </h5>
+
+        <p>
+
+            Language:
+
+            <strong>
+                {{ uploaded_file.language }}
+            </strong>
+
+        </p>
+
+    </div>
+
+</div>
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card border-danger">
+
+            <div class="card-body text-center">
+
+                <h3 class="text-danger">
+                    {{ high }}
+                </h3>
+
+                <p>High Severity</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-warning">
+
+            <div class="card-body text-center">
+
+                <h3 class="text-warning">
+                    {{ medium }}
+                </h3>
+
+                <p>Medium Severity</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card border-success">
+
+            <div class="card-body text-center">
+
+                <h3 class="text-success">
+                    {{ low }}
+                </h3>
+
+                <p>Low Severity</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<form method="GET" class="row mb-4">
+
+    <div class="col-md-4">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search vulnerability">
+
+    </div>
+
+    <div class="col-md-4">
+
+        <select
+            name="severity"
+            class="form-select">
+
+            <option>All</option>
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <button
+            type="submit"
+            class="btn btn-primary w-100">
+
+            Filter
+
+        </button>
+
+    </div>
+
+</form>
+
+{% if results %}
+
+    {% for result in results %}
+
+    <div class="card mb-3 shadow-sm">
+
+        <div class="card-body">
+
+            <h4>{{ result.title }}</h4>
+
+            {% if result.severity == "High" %}
+
+                <span class="badge bg-danger">
+                    High
+                </span>
+
+            {% elif result.severity == "Medium" %}
+
+                <span class="badge bg-warning text-dark">
+                    Medium
+                </span>
+
+            {% else %}
+
+                <span class="badge bg-success">
+                    Low
+                </span>
+
+            {% endif %}
+
+            <hr>
+
+            <p>
+                <strong>Line Number:</strong>
+                {{ result.line }}
+            </p>
+
+            <p>
+                <strong>Description:</strong>
+                {{ result.message }}
+            </p>
+
+            <p>
+                <strong>Recommendation:</strong>
+                {{ result.recommendation }}
+            </p>
+
+            <p>
+                <strong>CWE:</strong>
+                {{ result.cwe }}
+            </p>
+
+            <p>
+                <strong>OWASP:</strong>
+                {{ result.owasp }}
+            </p>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="alert alert-info">
+
+<strong>
+
+Total Vulnerabilities:
+
+</strong>
+
+{{ results|length }}
+
+</div>
+
+{% endif %}
+
+<a
+   href="{{ url_for('upload.export_csv', file_id=uploaded_file.id) }}"
+   class="btn btn-success">
+
+   Download CSV Report
+
+</a>
+
+<a
+   href="{{ url_for('upload.export_pdf', file_id=uploaded_file.id) }}"
+   class="btn btn-danger">
+
+    Download PDF Report
+
+</a>
+
+<a
+    href="{{ url_for('main.dashboard') }}"
+    class="btn btn-secondary">
+
+    Back to Dashboard
+
+</a>
+
+{% endblock %}

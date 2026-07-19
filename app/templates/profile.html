@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    User Profile
+</h2>
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h4>
+
+            {{ current_user.username }}
+
+        </h4>
+
+        <hr>
+
+        <p>
+
+            <strong>Email:</strong>
+
+            {{ current_user.email }}
+
+        </p>
+
+        <p>
+
+            <strong>Total Uploaded Files:</strong>
+
+            {{ total_files }}
+
+        </p>
+
+        <p>
+
+            <strong>Total Vulnerabilities:</strong>
+
+            {{ total_vulnerabilities }}
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
